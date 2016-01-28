@@ -66,12 +66,12 @@ private:
   sequence_t m_observations;            // observations
   std::vector<size_t> m_unmatched;      // unmatched observations
   std::vector<FM::Vec> m_prevUnmatched; // previously unmatched observations
-  std::map<int, int> m_assignments;     // assignment < observation, target >
   std::vector<sequence_t> m_sequences;  // vector of unmatched observation sequences
   unsigned int m_seqSize;
   double m_seqTime;
 
 public:
+  std::map<int, int> m_assignments;     // assignment < observation, target >
 
   /**
    * Constructor
@@ -117,7 +117,6 @@ public:
   {
     // clean current vectors
     m_observations.clear();
-    m_assignments.clear();
   }
 
   
@@ -210,6 +209,8 @@ private:
   bool dataAssociation(ObservationModelType& om, association_t alg = NN)
   {
     const size_t M = m_observations.size(), N = m_filters.size();
+
+    m_assignments.clear();
 
     if (M == 0)   // no observation, do nothing
       return false;
